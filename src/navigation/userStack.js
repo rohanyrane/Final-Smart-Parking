@@ -2,17 +2,18 @@ import React from "react";
 import { Modal, Text, View, Pressable } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreen from "../screens/Home";
-import CallScreen from "../screens/Call";
-import SettingsScreen from "../screens/Settings";
+import { HomeScreen } from "../screens/HomeScreen";
+import {SettingsScreen} from "../screens/SettingsScreen";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Feather from "react-native-vector-icons/Feather";
+import { InputOTPScreen } from "../screens/InputOTPScreen";
+import LoginScreen from "../screens/LoginScreen";
 
 const Tab = createBottomTabNavigator();
 
 export default function UserStack() {
   return (
-    <NavigationContainer>
+    <NavigationContainer independent={true}>
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
@@ -22,7 +23,7 @@ export default function UserStack() {
       >
         <Tab.Screen
           name="Home"
-          component={HomeScreen}
+          component={InputOTPScreen}
           options={{
             tabBarShowLabel: false,
             tabBarIcon: ({ focused }) => (
@@ -34,33 +35,8 @@ export default function UserStack() {
             ),
           }}
         />
-        <Tab.Screen
-          name="Call"
-          component={CallScreen}
-          options={{
-            tabBarShowLabel: false,
-            tabBarIcon: ({ focused }) => (
-              <Feather
-                name="users"
-                color={focused ? "white" : "gray"}
-                size={"24"}
-              />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Settings"
-          component={SettingsScreen}
-          listeners={{
-            tabPress: (e) => {
-              e.preventDefault();
-            },
-          }}
-          options={{
-            tabBarShowLabel: false,
-            tabBarIcon: () => <SettingsScreen />,
-          }}
-        />
+        
+       
       </Tab.Navigator>
     </NavigationContainer>
   );
