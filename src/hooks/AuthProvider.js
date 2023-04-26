@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import react,{createContext,useState} from 'react';
+import react,{createContext,useState} from  'react';
 import auth from '@react-native-firebase/app';
 export const AuthContext = createContext();
 export const AuthProvider = ({children})=>{
