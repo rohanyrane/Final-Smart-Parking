@@ -1,96 +1,120 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import {
-  SafeAreaView,
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   Image,
+  Platform,
+  StyleSheet,
+  ScrollView
 } from 'react-native';
-
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
-// import LoginSVG from '../assets/images/misc/login.svg';
-// import GoogleSVG from '../assets/images/socialIcons/GoogleSVG';
-// import FacebookSVG from '../assets/images/socialIcons/FacebookSVG.svg';
-// import TwitterSVG from '../assets/images/socialIcons/TwitterSVG.svg';
-
-import InputField from '../components/InputField';
-// import CustomButton from '../components/CustomButton';
+import FormInput from '../components/FormInput';
+import FormButton from '../components/FormButton';
+import SocialButton from '../components/SocialButton';
+import { AuthContext } from '../hooks/AuthProvider';
 
 const LoginScreen = ({navigation}) => {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
+  const {login, googleLogin, fbLogin} = useContext(AuthContext);
+
   return (
-    <SafeAreaView style={{flex: 1, justifyContent: 'center'}}>
-      <View style={{paddingHorizontal: 25}}>
-        <View style={{alignItems: 'center'}}>
-          {/* <LoginSVG
-            height={300}
-            width={300}
-            style={{transform: [{rotate: '-5deg'}]}}
-          /> */}
-        </View>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Image
+        source={require('../assets/rn-social-logo.png')}
+        style={styles.logo}
+      />
+      <Text style={styles.text}>RN Social App</Text>
 
-        <Text
-          style={{
-            // fontFamily: 'Roboto-Medium',
-            fontSize: 28,
-            fontWeight: '500',
-            color: '#333',
-            marginBottom: 30,
-          }}>
-          Login
-        </Text>
+      <FormInput
+        labelValue={email}
+        onChangeText={(userEmail) => setEmail(userEmail)}
+        placeholderText="Email"
+        iconType="user"
+        keyboardType="email-address"
+        autoCapitalize="none"
+        autoCorrect={false}
+      />
 
-        <InputField
-          label={'Email ID'}
-          icon={
-            <MaterialIcons
-            name="alternate-email"
-            size={20}
-            color="#666"
-            style={{marginRight: 5}}
+      <FormInput
+        labelValue={password}
+        onChangeText={(userPassword) => setPassword(userPassword)}
+        placeholderText="Password"
+        iconType="lock"
+        secureTextEntry={true}
+      />
+
+      <FormButton
+        buttonTitle="Sign In"
+        onPress={() => login(email, password)}
+      />
+
+      <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
+        <Text style={styles.navButtonText}>Forgot Password?</Text>
+      </TouchableOpacity>
+
+      {Platform.OS === 'android' ? (
+        <View>
+          <SocialButton
+            buttonTitle="Sign In with Facebook"
+            btnType="facebook"
+            color="#4867aa"
+            backgroundColor="#e6eaf4"
+            onPress={() => fbLogin()}
           />
-          }
-          keyboardType="email-address"
-        />
 
-        <InputField
-          label={'Password'}
-          icon={
-            <Ionicons
-            name="ios-lock-closed-outline"
-            size={20}
-            color="#666"
-            style={{marginRight: 5}}
+          <SocialButton
+            buttonTitle="Sign In with Google"
+            btnType="google"
+            color="#de4d41"
+            backgroundColor="#f5e7ea"
+            onPress={() => googleLogin()}
           />
-          }
-          inputType="password"
-          fieldButtonLabel={"Forgot?"}
-          fieldButtonFunction={() => {}}
-        />
-        
-        {/* <CustomButton label={"Login"} onPress={() => {}} /> */}
-
-        <Text style={{textAlign: 'center', color: '#666', marginBottom: 30}}>
-          Or, login with ...
-        </Text>
-
-        
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            marginBottom: 30,
-          }}>
-          <Text>New to the app?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-            <Text style={{color: '#AD40AF', fontWeight: '700'}}> Register</Text>
-          </TouchableOpacity>
         </View>
-      </View>
-    </SafeAreaView>
+      ) : null}
+
+      <TouchableOpacity
+        style={styles.forgotButton}
+        onPress={() => navigation.navigate('Signup')}>
+        <Text style={styles.navButtonText}>
+          Don't have an acount? Create here
+        </Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 };
 
 export default LoginScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    paddingTop: 50
+  },
+  logo: {
+    height: 150,
+    width: 150,
+    resizeMode: 'cover',
+  },
+  text: {
+    fontFamily: 'Kufam-SemiBoldItalic',
+    fontSize: 28,
+    marginBottom: 10,
+    color: '#051d5f',
+  },
+  navButton: {
+    marginTop: 15,
+  },
+  forgotButton: {
+    marginVertical: 35,
+  },
+  navButtonText: {
+    fontSize: 18,
+    fontWeight: '500',
+    color: '#2e64e5',
+    fontFamily: 'Lato-Regular',
+  },
+});

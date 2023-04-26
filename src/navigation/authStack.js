@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import LoginScreen from '../screens/LoginScreen';
+import SignupScreen from '../screens/SignupScreen';
 
 // import WelcomeScreen from '../screens/Welcome';
 // import SignInScreen from '../screens/SignIn';
@@ -19,8 +20,8 @@ export default function AuthStack() {
           },
           headerShown: false
         }}>
-        <Stack.Screen name="Login" component={LoginScreen} />
-        {/* <Stack.Screen name="Register" component={RegisterScreen}/> */}
+        <Stack.Screen name="Register" component={SignupScreen} />
+        <Stack.Screen name="Login" component={LoginScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

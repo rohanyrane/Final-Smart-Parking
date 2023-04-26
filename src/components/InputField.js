@@ -19,6 +19,7 @@ export default function InputField({
           keyboardType={keyboardType}
           style={styles.textInput}
           secureTextEntry={true}
+          
         />
       ) : (
         <TextInput

@@ -14,7 +14,7 @@ export const AuthProvider = ({children})=>{
                     await auth().signInWithEmailAndPassword(email,password);
                 }
                 catch (e){
-                    console.log(e);
+                    console.log(e,"auth");
                 }
             },
             register:async(email,password)=>{
@@ -22,7 +22,7 @@ export const AuthProvider = ({children})=>{
                     await auth().createUserWithEmailAndPassword(email,password);
                 }
                 catch (e){
-                    console.log(e);
+                    console.log(e,'register');
                 }
             },
             logout:async(email,password)=>{
